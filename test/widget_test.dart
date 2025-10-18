@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pet_finder_app/app.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:pet_finder_app/features/home/presentation/cubit/favorites_cubit/favorites_cubit.dart';
+import 'package:pet_finder_app/features/home/presentation/cubit/pet_cubit/pet_cubit.dart';
 
-import 'package:pet_finder_app/main.dart';
+// Mock classes for dependencies
+class MockPetCubit extends Mock implements PetCubit {}
+class MockFavoritesCubit extends Mock implements FavoritesCubit {}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  late MockPetCubit mockPetCubit;
+  late MockFavoritesCubit mockFavoritesCubit;
+
+  setUp(() {
+    mockPetCubit = MockPetCubit();
+    mockFavoritesCubit = MockFavoritesCubit();
+  });
+
+  testWidgets('App should render without errors', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<PetCubit>.value(value: mockPetCubit),
+          BlocProvider<FavoritesCubit>.value(value: mockFavoritesCubit),
+        ],
+        child: const PetFinderApp(),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the app title is shown
+    expect(find.text('PetFinder'), findsOneWidget);
   });
 }
