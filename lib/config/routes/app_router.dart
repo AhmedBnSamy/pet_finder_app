@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/details/presentation/pages/details_screen.dart';
+import '../../features/favorites/presentation/pages/favorites_screen.dart';
 import '../../features/home/data/models/pet_model.dart';
+import '../../features/home/presentation/pages/home_screen.dart';
+import '../../features/onboarding/presentation/pages/onboarding_screen.dart';
+import '../../features/splash/presentation/pages/splash_screen.dart';
 
 class AppRouter {
   static const String splash = '/';

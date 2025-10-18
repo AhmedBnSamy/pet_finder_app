@@ -3,6 +3,7 @@ import 'package:retrofit/retrofit.dart';
 import '../../features/home/data/models/pet_model.dart';
 import '../constants/api_constants.dart';
 
+part 'api_service.g.dart';
 
 @RestApi(baseUrl: ApiConstants.baseUrl)
 abstract class ApiService {
